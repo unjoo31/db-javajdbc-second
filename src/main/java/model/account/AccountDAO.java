@@ -16,10 +16,10 @@ public class AccountDAO {
     }
 
     // 계좌생성 (기본 1000원 입금 되어야 함)
-    public void createAccount(String accountNumber, String accountPassword, int accountBalance) throws SQLException {
+    public void createAccount(int accountNumber, String accountPassword, int accountBalance) throws SQLException {
         String query = "INSERT INTO account_tb (account_number, account_password, account_balance, account_created_at) VALUES (?, ?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, accountNumber);
+            statement.setInt(1, accountNumber);
             statement.setString(2, accountPassword);
             statement.setInt(3, accountBalance);
             statement.executeUpdate();
