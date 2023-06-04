@@ -66,10 +66,10 @@ public class AccountDAO {
     }
 
     // 계좌 삭제
-    public void deleteAccount(String accountNumber) throws SQLException {
+    public void deleteAccount(int accountNumber) throws SQLException {
         String query = "DELETE FROM account_tb WHERE account_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, accountNumber);
+            statement.setInt(1, accountNumber);
             statement.executeUpdate();
         }
     }
