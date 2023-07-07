@@ -14,7 +14,7 @@ public class DBConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, username, password);
-            System.out.println("디버그 : DB연결 성공");
+            //System.out.println("디버그 : DB연결 성공");
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
