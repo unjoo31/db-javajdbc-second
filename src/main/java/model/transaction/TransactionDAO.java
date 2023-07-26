@@ -17,6 +17,36 @@ public class TransactionDAO {
         this.connection = connection;
     }
 
+
+    public List<Transaction> getAllTransaction(int accountNumber){
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "select *\n" +
+                "from transaction_tb\n" +
+                "where transaction_w_account_number = ? or transaction_d_account_number = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, accountNumber);
+            statement.setInt(2, accountNumber);
+            try(ResultSet rs = statement.executeQuery()){
+                while (rs.next()) {
+                    Transaction dto = Transaction.builder()
+                            .transactionNumber(rs.getInt("transaction_number"))
+                            .transactionAmount(rs.getInt("transaction_amount"))
+                            .transactionWBalance(rs.getInt("transaction_w_balance"))
+                            .transactionDBalance(rs.getInt("transaction_d_balance"))
+                            .transactionWAccountNumber(rs.getInt("transaction_w_account_number"))
+                            .transactionDAccountNumber(rs.getInt("transaction_d_account_number"))
+                            .transactionCreatedAt(rs.getTimestamp("transaction_created_at"))
+                            .build();
+                    transactions.add(dto);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return transactions;
+    }
+
     public List<AccountDetailDTO> details(int accountNumber) throws SQLException {
         List<AccountDetailDTO> dtos = new ArrayList<>();
         String sql = "select \n" +
